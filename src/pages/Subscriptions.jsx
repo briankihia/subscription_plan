@@ -1,0 +1,1 @@
+// displays suscription plans and purchase options
