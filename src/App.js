@@ -1,8 +1,9 @@
+import SubscriptionPlans from "./components/SubscriptionList";
 
 function App() {
   return (
     <div className="App">
-      <h1>Where I will list all my components</h1>
+      <SubscriptionPlans />
     </div>
   );
 }
