@@ -9,6 +9,15 @@ const SubscriptionPlans = () => {
 
     const [plans, setPlans] = useState([]); //this part is used to set the plans
 
+    const handlePurchase = (plan) => {
+        console.log('Purchasing plan:', plan);
+        // Add your purchase logic here
+        // This could include:
+        // - Opening a payment modal
+        // - Redirecting to a checkout page
+        // - Making an API call to your backend
+    };
+
     useEffect(() => {
         // fecth subscriptions plans from the backend api
         // below is a function to access all the plans from the api
@@ -59,6 +68,12 @@ const SubscriptionPlans = () => {
                         )}
                     </ul>
 
+                    <button 
+                        className="purchase-button"
+                        onClick={() => handlePurchase(plan)}
+                    >
+                        Purchase Plan
+                    </button>
 
                 </div>
             ))}
