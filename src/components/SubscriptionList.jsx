@@ -1,21 +1,45 @@
 // Displays available subscription plans
 import React, { useEffect, useState} from "react";
 import "../style.scss";
-import { getSubscriptionPlans  } from "../services/api"; // import the API function
+import { getSubscriptionPlans, initiatePayment } from "../services/api"; // import the API function
 
 
 const SubscriptionPlans = () => {
 
 
     const [plans, setPlans] = useState([]); //this part is used to set the plans
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [selectedPlan, setSelectedPlan] = useState(null);
 
     const handlePurchase = (plan) => {
-        console.log('Purchasing plan:', plan);
-        // Add your purchase logic here
-        // This could include:
-        // - Opening a payment modal
-        // - Redirecting to a checkout page
-        // - Making an API call to your backend
+        console.log('Purchase clicked for plan:', plan);
+        setSelectedPlan(plan);
+        setShowPaymentModal(true);
+    };
+
+    const handlePaymentSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formattedPhone = phoneNumber.replace(/\D/g, '');
+            const finalPhone = formattedPhone.startsWith('254') 
+                ? formattedPhone 
+                : `254${formattedPhone.replace(/^0+/, '')}`;
+
+            const response = await initiatePayment(
+                finalPhone,
+                selectedPlan.price.replace(/[^0-9]/g, ''), // Extract numeric value from price
+            );
+            
+            if (response.success) {
+                alert('Please check your phone for the STK push notification');
+                setShowPaymentModal(false);
+                setPhoneNumber('');
+            }
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert(error.message || 'Payment initiation failed. Please try again.');
+        }
     };
 
     useEffect(() => {
@@ -78,6 +102,36 @@ const SubscriptionPlans = () => {
                 </div>
             ))}
 
+            {console.log('showPaymentModal:', showPaymentModal)}
+
+            {showPaymentModal && (
+                <div className="payment-modal">
+                    <div className="modal-content">
+                        <h2>Enter Payment Details</h2>
+                        <p>Plan: {selectedPlan?.name}</p>
+                        <p>Amount: {selectedPlan?.price}</p>
+                        
+                        <form onSubmit={handlePaymentSubmit}>
+                            <input
+                                type="tel"
+                                placeholder="Enter Phone Number (254XXX)"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                required
+                            />
+                            <div className="modal-buttons">
+                                <button type="submit">Pay Now</button>
+                                <button 
+                                    type="button" 
+                                    onClick={() => setShowPaymentModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 

@@ -16,3 +16,33 @@ export const getSubscriptionPlans = async () => {
         return [];
     }
 };
+
+export const initiatePayment = async (phoneNumber, amount, planId) => {
+    try {
+        const response = await fetch('http://localhost:8000/api/mpesa/initiate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                phone_number: phoneNumber,
+                amount: amount
+                // plan_id is not needed since your backend doesn't use it
+            })
+        });
+        const data = await response.json();
+        
+        // Match your Django response format
+        if (data.status === 'success') {
+            return {
+                success: true,
+                data: data.data
+            };
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        console.error('Payment initiation failed:', error);
+        throw error;
+    }
+};
