@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# Subscription Plans with M-Pesa Integration
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React and Django-based subscription management system with M-Pesa payment integration. This application allows users to view different subscription plans and make payments using M-Pesa's STK push functionality.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Display multiple subscription plans
+- Dynamic plan features and pricing
+- M-Pesa payment integration
+- Real-time STK push notifications
+- Responsive design
+- Mobile-friendly payment modal
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Before you begin, ensure you have the following installed:
+- Node.js (v14 or higher)
+- Python (v3.8 or higher)
+- Django (v3.2 or higher)
+- npm or yarn package manager
+- M-Pesa API credentials
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+### Frontend (React)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository:
+2. 
+git clone <repository-url>
 
-### `npm run build`
+cd <project-directory>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install dependencies:
+3. 
+cd frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Create a `.env` file in the frontend directory:
+4. 
+REACT_APP_API_URL=http://localhost:8000/api
 
-### `npm run eject`
+npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Backend (Django)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Create and activate a virtual environment:
+2. 
+python -m venv venv
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Install Python dependencies:
+3. 
+cd backend
 
-## Learn More
+pip install -r requirements.txt
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Set up environment variables:
+4. SECRET_KEY=your_secret_key
+DEBUG=True
+MPESA_CONSUMER_KEY=your_mpesa_consumer_key
+MPESA_CONSUMER_SECRET=your_mpesa_consumer_secret
+MPESA_SHORTCODE=your_mpesa_shortcode
+MPESA_PASSKEY=your_mpesa_passkey
+****
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Run migrations:
+5. python manage.py migrate
+6. 
+5. Start the Django server:
+6. 
+python manage.py runserver
 
-### Code Splitting
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+project/
+├── frontend/
+│ ├── src/
+│ │ ├── components/
+│ │ │ └── SubscriptionList.jsx
+│ │ ├── services/
+│ │ │ └── api.js
+│ │ └── style.scss
+│ └── package.json
+│
+└── backend/
+├── djangsubscriptionPlan/
+│ ├── views.py
+│ ├── urls.py
+│ └── models.py
+└── requirements.txt
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Get Subscription Plans
 
-### Advanced Configuration
+GET /api/subscription-plans/
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Returns a list of available subscription plans.
 
-### Deployment
+### Initiate Payment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+POST /api/initiate-mpesa-payment/
+Body:
 
-### `npm run build` fails to minify
+json
+{
+"phone_number": "254XXXXXXXXX",
+"amount": "1000"
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Usage
+
+1. Browse available subscription plans
+2. Click "Purchase Plan" on desired plan
+3. Enter M-Pesa registered phone number
+4. Confirm payment via STK push on your phone
+5. Wait for confirmation message
+
+## Styling
+
+The application uses SCSS for styling. Main style files:
+- `style.scss`: Contains all component styles
+- Responsive design breakpoints included
+- Mobile-first approach
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
+
+## Acknowledgments
+
+- M-Pesa API Documentation
+- React Documentation
+- Django REST Framework
