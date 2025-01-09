@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Subscription Plans with M-Pesa Integration
 
 A React and Django-based subscription management system with M-Pesa payment integration. This application allows users to view different subscription plans and make payments using M-Pesa's STK push functionality.
@@ -145,3 +146,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 - M-Pesa API Documentation
 - React Documentation
 - Django REST Framework
+=======
+
+>>>>>>> 8e9036c6500a9c38d2c15f5dd34c291099a3e358
