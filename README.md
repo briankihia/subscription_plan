@@ -1,70 +1,104 @@
-# Getting Started with Create React App
+# Subscription Plan with M-Pesa Integration
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Django-based subscription management system with Safaricom M-Pesa payment integration.
 
-## Available Scripts
+## Features
+- Subscription plan management
+- M-Pesa STK Push integration
+- Payment callback handling
+- Secure environment configuration
 
-In the project directory, you can run:
+## Prerequisites
+- Python 3.8+
+- Django 3.1+
+- PostgreSQL
+- Safaricom Daraja API credentials
+- ngrok (for local development)
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repository
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Create and activate virtual environment
+3.  Install dependencies
 
-### `npm test`
+   
+4. Environment Setup
+- Copy `.env.example` to create your `.env` file:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- - Fill in the values in `.env` with your actual credentials:
+  - Generate a new SECRET_KEY using:
+    ```python
+    python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+    ```
+  - Set up your database credentials
+  - Add your M-Pesa API credentials from the Daraja portal
 
-### `npm run build`
+5. Database Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+6. 
+6. Run development server
+7. 
+## M-Pesa Integration Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Daraja API Configuration
+1. Create an account on [Safaricom Daraja Portal](https://developer.safaricom.co.ke/)
+2. Create a new app to get your consumer key and secret
+3. Set up your test credentials in `.env`:
+   - MPESACONSUMERKEY
+   - MPESACONSUMERSECRETKEY
+   - MPESABUSINESSSHORTCODE
+   - MPESAPASSKEY
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Local Development with ngrok
+1. Install ngrok
+2. Start ngrok tunnel:
 
-### `npm run eject`
+3. 3. Update CALLBACK_DOMAIN in `.env` with your ngrok URL
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## API Endpoints
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### M-Pesa Payment
+- Initiate Payment:
+  - URL: `/api/mpesa/initiate/`
+  - Method: POST
+  - Body:
+    ```json
+    {
+        "amount": "100",
+        "phone_number": "254XXXXXXXXX"
+    }
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Payment Callback:
+  - URL: `/api/mpesa/callback/`
+  - Method: POST
+  - Handled automatically by the system
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Subscription Plans
+- List Plans:
+  - URL: `/api/subscription-plans/`
+  - Method: GET
 
-## Learn More
+## Environment Variables
+The following environment variables are required:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Development
+- The project uses Django's built-in development server
+- PostgreSQL is used as the database
+- Environment variables are managed using python-decouple
+- API endpoints use Django REST Framework
 
-### Code Splitting
+## Security Notes
+- Never commit `.env` file to version control
+- Keep your M-Pesa API credentials secure
+- Use HTTPS in production
+- Set DEBUG=False in production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
